@@ -1,8 +1,10 @@
 const fs = require('fs')
+const File = require('../models/File')
+const {LOG} = require('../utils/log')
 
 
 class FileService {
-    createDir(file) {
+    makeDir(file) {
         const filePath =  `${process.env.FILE_PATH}\\${file.user}\\${file.path}`
         return new Promise(((resolve, reject)=>{
             try{
@@ -16,6 +18,23 @@ class FileService {
                 return reject({message: 'File error'})
             }
         }))
+    }
+
+    async createDir({name, parent, user}){
+        LOG('createDir', arguments)
+        const file = new File({name, type: 'dir', parent, user})
+        const parentFile = await File.findOne({_id: parent})
+        if(!parentFile) {
+            file.path = name
+            await this.makeDir(file)
+        } else {
+            file.path = `${parentFile.path}\\${file.name}`
+            await this.makeDir(file)
+            parentFile.childs.push(file._id)
+            await parentFile.save()
+        }
+        await file.save()
+        return file
     }
 
     getPath(file){

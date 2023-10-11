@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 const fileUpload = require("express-fileupload")
 
 const authRouter = require('./routes/auth-routes')
+const fileRouter = require('./routes/file-routes')
 
 const authMiddleware = require('./middlewares/auth-middleware')
 const apiErrorMiddleware = require('./middlewares/error-middleware')
@@ -33,6 +34,7 @@ app.use(express.static('static'))
 
 app.use('/auth', authRouter)
 app.use(authMiddleware)
+app.use('/files', fileRouter)
 
 app.use(apiErrorMiddleware)
 

@@ -25,7 +25,7 @@ class UserService {
         const hashPassword = await bcrypt.hash(password, 8)
         const user = new User({username, password: hashPassword})
         await user.save()
-        await fileService.createDir(new File({user: user.id, name: ''}))
+        await fileService.makeDir(new File({user: user.id, name: ''}))
 
         return await this.handleUserData(user)
     }
