@@ -8,6 +8,7 @@ const fileUpload = require("express-fileupload")
 const authRouter = require('./routes/auth-routes')
 
 const authMiddleware = require('./middlewares/auth-middleware')
+const apiErrorMiddleware = require('./middlewares/error-middleware')
 
 const PORT = process.env.PORT
 const CLIENT_PORT = process.env.CLIENT_PORT
@@ -33,6 +34,7 @@ app.use(express.static('static'))
 app.use('/auth', authRouter)
 app.use(authMiddleware)
 
+app.use(apiErrorMiddleware)
 
 
 const start = async () => {
