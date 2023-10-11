@@ -1,20 +1,9 @@
-
-const ApiError = require('../exceptions/api-error')
 const userService = require('../services/user-service')
 
 const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000 //7days
 
 class UserController {
 
-    async create(req, res, next) {
-        try {
-            const {username} = req.body
-            const userData = await userService.create({username})
-            return res.json(userData)
-        } catch (e) {
-            next(e)
-        }
-    }
 
     async registration(req, res, next) {
         try {
